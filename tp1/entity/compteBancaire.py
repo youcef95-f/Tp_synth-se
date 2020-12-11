@@ -1,20 +1,16 @@
-from sqlalchemy import column, Integer, Float, ForeignKey
-
-
 class CompteBancaire:
-    __tablename__ = 'comptebancaire'
-    idCompte = column(Integer)
-    solde = column(Float)
-    decouver = column(Float)
-    compte_id = column(Integer, ForeignKey('client.idClient'))
 
-    def __init__(self, idCompte, solde, decouver):
+    def __init__(self, idCompte, solde, decouvert):
         self.idCompte = idCompte
         self.solde = solde
-        self.decouver = decouver
+        self.decouvert = decouvert
 
-    def retrait(self, argent):
-        if (self.solde < argent):
-            print(" Impossible d'effectuer l'opération. Solde insuffisant !")
+    def retrait(self, montant):
+        facilitesCaisse = self.decouvert
+        if self.solde + facilitesCaisse < montant:
+           raise Exception('Slode insuffisant')
         else:
-            self.solde = self.solde - argent
+            self.solde = self.solde - montant
+
+    def ajouter(self, montant):
+        self.solde += montant
